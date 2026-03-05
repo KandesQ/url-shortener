@@ -1,4 +1,4 @@
 .env
 .venv
-.pgdata
+url-shortener-db-data
 .idea

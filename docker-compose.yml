@@ -1,0 +1,47 @@
+
+services:
+  postgres:
+    image: postgres:16
+    restart: always
+    networks:
+      - default
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      retries: 3
+      start_period: 10s
+      timeout: 10s
+    env_file:
+      - .env
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_DB: ${POSTGRES_DB?Variable not set}
+      POSTGRES_USER: ${POSTGRES_USER?Variable not set}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD?Variable not set}
+      POSTGRES_PORT: ${POSTGRES_PORT?Variable not set}
+    volumes:
+      - url-shortener-db-data:/var/lib/postgresql/data/pgdata
+
+  url-shortener:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - default
+    depends_on:
+      postgres:
+        condition: service_healthy
+        restart: true
+    env_file:
+      - .env
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: ${POSTGRES_PORT?Variable not set}
+      POSTGRES_DB: ${POSTGRES_DB?Variable not set}
+      POSTGRES_USER: ${POSTGRES_USER?Variable not set}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD?Variable not set}
+    ports:
+      - "8000:8000"
+
+volumes:
+  url-shortener-db-data:
