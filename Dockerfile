@@ -25,6 +25,4 @@ ENV PATH="/app/.venv/bin:$PATH"
 
 COPY . .
 
-CMD ["fastapi", "run", "--workers", "2", "main.py"]
-
-# TODO: create service in docker-compose
+CMD ["sh", "-c", "alembic upgrade head && fastapi run --workers 2 main.py"]
