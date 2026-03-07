@@ -41,5 +41,6 @@ async def redirect_to_original_url(
         short_id,
         db_session
     )
+    await db_session.commit()
 
     return redirect_url.original_url

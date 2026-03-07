@@ -1,7 +1,7 @@
 
 services:
   postgres:
-    image: postgres:16
+    image: postgres:${POSTGRES_VERSION}
     restart: always
     networks:
       - default

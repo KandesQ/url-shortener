@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     POSTGRES_PASSWORD: str
     POSTGRES_HOST: str
     POSTGRES_PORT: int
+    POSTGRES_VERSION: int
 
     @computed_field
     def SQLALCHEMY_DATABASE_URI(self) -> PostgresDsn:
