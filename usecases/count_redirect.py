@@ -25,6 +25,8 @@ async def count_redirect(short_id: str, db_session: AsyncSession) -> Url:
     try:
         db_obj.click_count += 1
 
+        await db_session.flush()
+
         logger.info(f"Click count of Url with id=[{db_obj.id}] updated: "
                     f"previous_version=[{previous_version}], current_version=[{db_obj.version_id}]")
 
