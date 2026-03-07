@@ -29,8 +29,7 @@ async def create_url(url_create: URLCreate, db_session: AsyncSession) -> Url:
     await db_session.flush()
 
     db_obj.short_identifier = _get_short_identifier(db_obj.id)
-
-    await db_session.commit()
+    await db_session.flush()
     await db_session.refresh(db_obj)
 
     return db_obj

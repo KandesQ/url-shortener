@@ -28,4 +28,6 @@ async def shorten(url_create: URLCreate, db_session: SessionDep):
         url_create,
         db_session
     )
+    await db_session.commit()
+
     return url_info
