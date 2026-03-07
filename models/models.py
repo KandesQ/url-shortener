@@ -36,7 +36,7 @@ class Url(SQLModel, table=True):
     @property
     @computed_field
     def short_url(self) -> str:
-        return f"{settings.BASE_URL}/{self.code}"
+        return f"{settings.BASE_URL}/{self.short_identifier}"
 
 
     __mapper_args__ = {

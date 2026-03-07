@@ -2,7 +2,6 @@ import logging
 
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm.exc import StaleDataError
-from sqlmodel import select
 
 from core.optimistic_lock import OptimisticLockException, optimistic_retry_async, RetryConfig
 from models import Url
