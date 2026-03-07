@@ -6,6 +6,7 @@ from sqlmodel import select
 
 from core.optimistic_lock import OptimisticLockException, optimistic_retry_async, RetryConfig
 from models import Url
+from repository import find_url_by_short_id
 
 logger = logging.getLogger(__name__)
 
@@ -18,9 +19,7 @@ async def count_redirect(short_id: str, db_session: AsyncSession) -> Url:
     :param db_session: async database session
     :return: updated Url 
     """
-    # TODO: replace with find_url_by_short_id
-    st = select(Url).where(Url.short_identifier == short_id)
-    db_obj: Url = (await db_session.execute(st)).scalar()
+    db_obj: Url = await find_url_by_short_id(short_id, db_session)
 
     previous_version = db_obj.version_id
 

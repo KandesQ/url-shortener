@@ -1,14 +1,13 @@
-from email.policy import default
 from typing import Optional
 
 from fastapi import APIRouter, HTTPException
-from urllib3.http2 import orig_HTTPSConnection
 
 from models import Url
 from models.models import URLCreate
+from repository import find_url
 from routes.deps import SessionDep
 
-from usecases import find_url, create_url
+from usecases import create_url
 
 router = APIRouter()
 
