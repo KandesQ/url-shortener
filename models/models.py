@@ -10,8 +10,8 @@ from core.config import settings
 class URLCreate(SQLModel):
     original_url: HttpUrl
 
-class ShortUrlResponse(SQLModel):
-    short_url: str
+class ShortIdentifierResponse(SQLModel):
+    short_identifier: str
     created_at: datetime
 
 
@@ -32,11 +32,6 @@ class Url(SQLModel, table=True):
         default_factory=lambda: datetime.now(UTC),
         sa_column=Column(DateTime(timezone=True), nullable=False)
     )
-
-    @property
-    @computed_field
-    def short_url(self) -> str:
-        return f"{settings.BASE_URL}/{self.short_identifier}"
 
 
     __mapper_args__ = {

@@ -3,7 +3,7 @@ from typing import Optional
 from fastapi import APIRouter, HTTPException
 
 from models import Url
-from models.models import URLCreate
+from models.models import URLCreate, ShortIdentifierResponse
 from repository import find_url
 from routes.deps import SessionDep
 
@@ -12,7 +12,7 @@ from usecases import create_url
 router = APIRouter()
 
 
-@router.post("/shorten")
+@router.post("/shorten", response_model=ShortIdentifierResponse)
 async def shorten(url_create: URLCreate, db_session: SessionDep):
     url: Optional[Url] = await find_url(
         str(url_create.original_url),
@@ -29,5 +29,6 @@ async def shorten(url_create: URLCreate, db_session: SessionDep):
         db_session
     )
     await db_session.commit()
+    await db_session.refresh(url_info)
 
     return url_info
